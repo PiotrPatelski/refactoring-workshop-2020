@@ -64,7 +64,18 @@ Controller::Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePo
         throw ConfigurationError();
     }
 }
-
+void Controller::checkIfLost(Segment newSegment)
+{
+    for (auto segment : m_segments)
+    {
+        if(segment.x == newSegment.x and segment.y == newSegment.y)
+        {
+            m_scorePort.send(std::make_unique<EventT<LooseInd>>());
+            lost = true;
+            break;
+        }
+    }
+}
 void Controller::receive(std::unique_ptr<Event> e)
 {
     try {
@@ -75,15 +86,15 @@ void Controller::receive(std::unique_ptr<Event> e)
         Segment newHead;
         newHead.updatePosition(currentHead, m_currentDirection);
 
-        bool lost = false;
+        checkIfLost(newHead);
 
-        for (auto segment : m_segments) {
-            if (segment.x == newHead.x and segment.y == newHead.y) {
-                m_scorePort.send(std::make_unique<EventT<LooseInd>>());
-                lost = true;
-                break;
-            }
-        }
+        // for (auto segment : m_segments) {
+        //     if (segment.x == newHead.x and segment.y == newHead.y) {
+        //         m_scorePort.send(std::make_unique<EventT<LooseInd>>());
+        //         lost = true;
+        //         break;
+        //     }
+        // }
 
         if (not lost) {
             if (std::make_pair(newHead.x, newHead.y) == m_foodPosition) {

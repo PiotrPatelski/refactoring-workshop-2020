@@ -33,6 +33,10 @@ public:
         y = newSegment.y + (not (currentDirection & 0b01) ? (currentDirection & 0b10) ? 1 : -1 : 0);;
         ttl = newSegment.ttl;
     }
+    bool isEqualPosition(Segment otherSegment)
+    {
+        return (x==otherSegment.x and y==otherSegment.y);
+    }
 };
 
 class Controller : public IEventHandler
@@ -45,8 +49,9 @@ public:
     Controller& operator=(Controller const& p_rhs) = delete;
 
     void receive(std::unique_ptr<Event> e) override;
+    void checkIfLost(Segment newSegment);
 private:
-    
+    bool lost{false};
 
     IPort& m_displayPort;
     IPort& m_foodPort;
