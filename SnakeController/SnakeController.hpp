@@ -21,8 +21,23 @@ struct UnexpectedEventException : std::runtime_error
     UnexpectedEventException();
 };
 
+struct Segment
+{
+public:
+    int x;
+    int y;
+    int ttl;
+    void updatePosition(Segment newSegment, Direction currentDirection)
+    {
+        x = newSegment.x + ((currentDirection & 0b01) ? (currentDirection & 0b10) ? 1 : -1 : 0);;
+        y = newSegment.y + (not (currentDirection & 0b01) ? (currentDirection & 0b10) ? 1 : -1 : 0);;
+        ttl = newSegment.ttl;
+    }
+};
+
 class Controller : public IEventHandler
 {
+
 public:
     Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePort, std::string const& p_config);
 
@@ -30,14 +45,8 @@ public:
     Controller& operator=(Controller const& p_rhs) = delete;
 
     void receive(std::unique_ptr<Event> e) override;
-
 private:
-    struct Segment
-    {
-        int x;
-        int y;
-        int ttl;
-    };
+    
 
     IPort& m_displayPort;
     IPort& m_foodPort;
