@@ -1,9 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <Event.hpp>
 
-namespace Snake
-{
 
 enum Direction
 {
@@ -13,17 +12,17 @@ enum Direction
     Direction_RIGHT = 0b11
 };
 
-struct DirectionInd
+struct DirectionInd : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x10;
-
+    //static constexpr std::uint32_t MESSAGE_ID = 0x10;
+    
     Direction direction;
 };
 
 
-struct TimeoutInd
+struct TimeoutInd : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x20;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x20;
 };
 
 enum Cell
@@ -33,44 +32,44 @@ enum Cell
     Cell_SNAKE
 };
 
-struct DisplayInd
+struct DisplayInd : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x30;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x30;
 
     int x;
     int y;
     Cell value;
 };
 
-struct FoodInd
+struct FoodInd : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x40;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x40;
 
     int x;
     int y;
 };
 
-struct FoodReq
+struct FoodReq : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x41;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x41;
 };
 
-struct FoodResp
+struct FoodResp : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x42;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x42;
 
     int x;
     int y;
 };
 
-struct ScoreInd
+struct ScoreInd : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x70;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x70;
 };
 
-struct LooseInd
+struct LooseInd : public Event
 {
-    static constexpr std::uint32_t MESSAGE_ID = 0x71;
+    //static constexpr std::uint32_t MESSAGE_ID = 0x71;
 };
 
-} // namespace Snake
+ // namespace Snake
