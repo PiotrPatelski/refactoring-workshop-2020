@@ -21,6 +21,12 @@ struct UnexpectedEventException : std::runtime_error
 {
     UnexpectedEventException();
 };
+struct Segment
+{
+        int x;
+        int y;
+        
+};
 
 class Controller : public IEventHandler
 {
@@ -40,11 +46,7 @@ private:
     std::pair<int, int> m_mapDimension;
     std::pair<int, int> m_foodPosition;
 
-    struct Segment
-    {
-        int x;
-        int y;
-    };
+   
 
     std::list<Segment> m_segments;
     Direction m_currentDirection;
@@ -55,16 +57,16 @@ private:
     void handleFoodResp(std::unique_ptr<Event>);
     void handlePauseInd(std::unique_ptr<Event>);
 
-    bool isSegmentAtPosition(int x, int y) const;
+    bool isSegmentAtPosition(Segment newSegment) const;
     Segment calculateNewHead() const;
     void updateSegmentsIfSuccessfullMove(Segment const& newHead);
     void addHeadSegment(Segment const& newHead);
     void removeTailSegmentIfNotScored(Segment const& newHead);
     void removeTailSegment();
 
-    bool isPositionOutsideMap(int x, int y) const;
+    bool isPositionOutsideMap(Segment newSegment) const;
 
-    void updateFoodPosition(int x, int y, std::function<void()> clearPolicy);
+    void updateFoodPosition(Segment newHead, std::function<void()> clearPolicy);
     void sendClearOldFood();
     void sendPlaceNewFood(int x, int y);
 
